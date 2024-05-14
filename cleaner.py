@@ -87,4 +87,22 @@ for file in unwanted_files:
 
 # Delete unwanted files
 for file in unwanted_files:
-    os.remove(file)
+    try:
+        os.remove(file)
+        print(f"Deleted file: {file}")
+    except OSError as e:
+        print(f"Failed to delete file: {file}, Error: {e}")
+
+def delete_empty_directories(directory):
+    for root, dirs, files in os.walk(directory, topdown=False):
+        for dir in dirs:
+            folder_path = os.path.join(root, dir)
+            if not os.listdir(folder_path):
+                try:
+                    os.rmdir(folder_path)
+                    print(f"Deleted empty directory: {folder_path}")
+                except OSError as e:
+                    print(f"Failed to delete directory: {folder_path}, Error: {e}")
+
+# Call the function to delete empty directories
+delete_empty_directories(current_directory)
